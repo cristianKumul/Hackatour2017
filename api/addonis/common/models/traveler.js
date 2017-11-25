@@ -129,8 +129,8 @@ module.exports = function(Traveler) {
           err,
           token
         ) {
-          cb(null, token.id);
-          console.log(token.id);
+          cb(null, {token: token.id, userId: token.userId});
+          console.log({token: token.id, userId: token.userId});
         });
       } else {
         cb(null, null);
@@ -153,8 +153,8 @@ module.exports = function(Traveler) {
       }
     ],
     returns: {
-      arg: "accessToken",
-      type: "string"
+      arg: "response",
+      type: "object"
     }
   });
 };
