@@ -17,6 +17,8 @@ import FBSDK, { LoginButton, AccessToken }  from 'react-native-fbsdk';
 import {Actions} from 'react-native-router-flux';
 import firebase, { firebaseAuth, firebaseDatabase } from './firebase';
 
+const addonisClient = require('./api-client');
+
 const { FacebookAuthProvider } = firebase.auth;
 
 export default class LoginView extends Component {
@@ -33,6 +35,29 @@ export default class LoginView extends Component {
         const { accessToken } = data;
         const credential = FacebookAuthProvider.credential(accessToken);
         firebaseAuth.signInWithCredential(credential).then((credentials) =>{
+          console.log(credentials);
+          const email =  credentials.email;
+          const uid = credentials.uid;
+          const user = {
+            fbId: uid,
+            nationality: "mexicana",
+            tripMode: "family",
+            age: 2,
+            email: email,
+          };
+          addonisClient.createUser(user).then(function(response) {
+            console.log(response);
+            if(response.status == 200 && response.data.accessToken != null){
+              const accessToken = response.data.accessToken;
+              const userId = response.data.userId;
+            }
+            else{
+
+            }
+
+          }).catch(function(err){
+              console.log(err);
+          });
           //this.setState({credentials});
          Actions.root(); 
         }, function(error) {

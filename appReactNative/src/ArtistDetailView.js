@@ -19,6 +19,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { getArtists } from './api-client'
 
+
 import ArtistBox from './ArtistBox';
 import CommentList from './CommentList';
 export default class ArtistDetailView extends Component {
