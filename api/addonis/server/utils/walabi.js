@@ -19,12 +19,12 @@ instance.defaults.headers.post["Proxy"] = proxy;
 
 const createWallet = model => {
   const wallet = {
-    telefono: model.username,
+    telefono: model.telefono,
     password: "qwerty",
     email: model.email,
-    nombre: model.realm,
+    nombre: model.nombre,
     apellidos: "Gonzuela",
-    imei: model.username
+    imei: model.imei
   };
   return instance.post("ext/createwallet", wallet);
 };
@@ -77,12 +77,20 @@ const addAmount = (traveler, objectId, type, amount) => {
  * @param {string} objectId id of product redeemed
  * @param {*} amount amount
  */
-const redem  = (traveler, objectId, amount) => {
+const redemPoints  = (traveler, objectId, amount) => {
   const token = getSingPayload(traveler, objectId, 'REDEM', amount);
   return instance.post('pay',{token: token});
 }
 
 
+
+
+module.exports = {
+  getBalance,
+  addAmount,
+  redemPoints,
+  createWallet
+};
 
 //addAmount('5555555555','123123123','single', 10).then((res) => {console.log(res)});
 //getBalance('wallet0001').then(res =>  console.log(res.data));

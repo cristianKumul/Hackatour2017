@@ -1,5 +1,6 @@
 "use strict";
 const generator = require("generate-password");
+const walabi = require("../../server/utils/walabi");
 module.exports = function(Traveler) {
   Traveler.validatesInclusionOf("tripMode", {
     in: ["alone", "family", "partner", "friends"],
@@ -122,6 +123,7 @@ module.exports = function(Traveler) {
       email: request.email,
       password: password
     };
+
     console.log("Traveler", Traveler);
     Traveler.create(travelerToCreate, (err, travelerObject) => {
       if (!err) {
@@ -129,13 +131,63 @@ module.exports = function(Traveler) {
           err,
           token
         ) {
-          cb(null, {token: token.id, userId: token.userId});
-          console.log({token: token.id, userId: token.userId});
+          const wallet = {
+            telefono: request.fbId,
+            password: password,
+            email: request.email,
+            nombre: request.fbId,
+            apellidos: "Gonzuela",
+            imei: request.fbId
+          };
+          walabi.createWallet(wallet).then(res => {
+            if (res && res.data) {
+              cb(null, { token: token.id, userId: token.userId });
+              console.log({ token: token.id, userId: token.userId });
+            } else {
+              cb(null, null);
+            }
+          });
         });
       } else {
         cb(null, null);
       }
     });
+  };
+
+  Traveler.getBalance = (username, cb) => {
+    walabi.getBalance(username).then(response => {
+      if (response && response.data) {
+        cb(null, response.data);
+      } else {
+        cb(null, null);
+      }
+    });
+  };
+
+  Traveler.addAmount = (req, cb) => {
+    if (req && req.traveler && req.amount)
+      walabi
+        .addAmount(req.traveler, req.objectId, req.type, req.amount)
+        .then(response => {
+          if (response && response.data) {
+            cb(null, response.data);
+          } else {
+            cb(null, null);
+          }
+        });
+  };
+
+  Traveler.redeem = (req, cb) => {
+    if (req && req.traveler && req.amount)
+      walabi
+        .redemPoints(req.traveler, req.objectId, req.amount)
+        .then(response => {
+          if (response && response.data) {
+            cb(null, response.data);
+          } else {
+            cb(null, null);
+          }
+        });
   };
   /**
    * Register remote methods
@@ -143,6 +195,57 @@ module.exports = function(Traveler) {
   Traveler.remoteMethod("createFbTraveler", {
     http: {
       path: "/createFbTraveler",
+      verb: "post"
+    },
+    accepts: [
+      {
+        arg: "request",
+        type: "object",
+        http: { source: "body" }
+      }
+    ],
+    returns: {
+      arg: "response",
+      type: "object"
+    }
+  });
+  Traveler.remoteMethod("getBalance", {
+    http: {
+      path: "/getBalance",
+      verb: "get"
+    },
+    accepts: [
+      {
+        arg: "id",
+        type: "string",
+        http: { source: "query" }
+      }
+    ],
+    returns: {
+      arg: "response",
+      type: "object"
+    }
+  });
+  Traveler.remoteMethod("addAmount", {
+    http: {
+      path: "/addAmount",
+      verb: "post"
+    },
+    accepts: [
+      {
+        arg: "request",
+        type: "object",
+        http: { source: "body" }
+      }
+    ],
+    returns: {
+      arg: "response",
+      type: "object"
+    }
+  });
+  Traveler.remoteMethod("redeem", {
+    http: {
+      path: "/redeem",
       verb: "post"
     },
     accepts: [
