@@ -6,40 +6,14 @@ const axios = require("axios"),
 const proxy = "y8OClQcRV7zynyiZ6kAJCJAhhsRETkfIWtAgjzX05ms=",
   key = "davdKspKzsxmeH4zZY95sq7h0oKlGzyXBkzKJD6fZpk=",
   baseUrl = "https://hackatour-walabi.azurewebsites.net/api/v1";
-  var cert = `-----BEGIN RSA PRIVATE KEY-----
-  MIIEogIBAAKCAQEA0xzfzm3xQlgXcc7thECw43u75huA+onHucz5hwR+OJpFQ7+q
-  vpHRzXud5SE5zGaGz2dB3mKCFjtJINzeM35cwF6vR1OL2EIvbsnNqgUa+RGnm7Pk
-  EfOMwMn5AT+EnCs8BZ+gp8+U4jwlN3gEdtlKihN11UmB7MD0uO/xfwZnMSljPe0n
-  wdjc/GAMFvJZiA54mdEPgxuMkUkoBoGbpj/ks9B9faQDro0+F29TLSH5+MQzB9Hm
-  F+djoc5lRIRoG4c/+aLiOo/6SaMjIM6CCwBCLzbH/pS4MyKa4OJZy1iBjNWfICWC
-  jOXM5Lx532v/CC5/VFEA8Fnb7ZGHAo08dTG37wIDAQABAoIBAATZF+akrbKpVTh+
-  2QN9fNJsh/8byJV4Tobcxyorlz5zhH2uzBv+O0Qtv42AetRP0m6231NdDcG28NH5
-  YHzsPPMJ+Zp4t7BqrK4tojRyU5E+r4uq0OT8o9HVkYtOyxvO/lzespDH+pJLcUtZ
-  zThxev26vqz8OCiYscYBdJlHK118nCZXHzQo9oGtVnhszY4PYEirRAjBUPhOkmdU
-  K0bMSq5KYuDVd/ncnWKFPST6J8uiFtZOuzy7URZ7Rm6dLu5b2hUhMDw6RcF9Vjau
-  6lBTOJU/hX99hHKWpp4wgv2oyasCbfuxwI9S9RZhB4YOHS+pJlugMdWGuJGmA7K9
-  0mO92rkCgYEA6kI7LGMGflaz7NVvumOwDKiuBz+lAnVGKcf9urcrpCeFH3erQNo/
-  S+luyV8Yjq6gym1jBZjCyXNP7EYHusvdtXuZO2mm+tmyD3MUZujaMPu3TU+b5vKP
-  rS6kiriQt1VYd3WSVH2CCPwHCAK3faPB6CXKkQInK8Zx08i5ETeWhC0CgYEA5rS3
-  rDnhvENhl+WcI9fV8XZmyE1wdnEjs5Zb+OxuUtHaj/7Evi4vy+JfK7P15XUF5r/t
-  rbpp3RCqM/PWDoQXApX5xTFwvXqkaZNW8Do2PgcVjOHUQauMxRHQvotrMzPmcqi/
-  s+pj3Ylu3rYnc6cLzPit/gLbEhFAeGm1W8sWcgsCgYAJaG+H8NIp8MF5GXlLOwWu
-  /HdAw0WVO7B9rRJ7lS+jgBLQmLW//QPdwJo6bB9IW6sJdisr5l6sSH1FN+rHjbhx
-  uW0F/dA+8s8735tKJr/ch79s022ncMZkZiMljxQAyOSsp4Qg8IlwYu7FW5aS7Si0
-  chAYksWP9IBNyRnlnx3kYQKBgFLUy6VQWtXnM2EAFWFhGvVI13pPI3PDB1hxQbBL
-  4whlRB2zERxfJNYE/rqIMF8j9ux0OHfJmDzAwPtKLq6jikdpZXYBXEMLh4BIYEx7
-  +gGnNXuRkU3KtA4FaXcgQ2rs1W6RW9LS8uwVbfMUX3HMphX/qyiqCdGg1A7nlS/R
-  6MslAoGAB2UWI/y84bYZ7m1gwqvViFa8DaDToGCjIaqAGPcU0m9WU+NWuJsp3AaX
-  6cUbED+9vKNhDyPo8iH9BS4eekrGB3fXxGIvuf3OLSiCOCyba6O1mNgmS6uOVm+6
-  0Tls0CNgoa2EYC+qCeSfptu1ecDF3ki89l6yJjKuzXGSfsL/GYw=
-  -----END RSA PRIVATE KEY-----`;
 
-  var absolutePath = path.resolve('./server/utils/private.key');
-  var privateKey = fs.readFileSync(absolutePath, "utf8");
+
+  var absolutePath = path.resolve('./private.key');
+  var privateKey = fs.readFileSync( __dirname + '/private.key', "utf8");
 var instance = axios.create({
   baseURL: "https://hackatour-walabi.azurewebsites.net/api/v1"
 });
-//instance.defaults.baseURL = 'https://hackatour-walabi.azurewebsites.net/api/v1';
+
 instance.defaults.headers.common["Authorization"] = key;
 instance.defaults.headers.post["Proxy"] = proxy;
 
@@ -61,9 +35,14 @@ const getBalance = userName => {
   };
   return instance.post("ext/getbalance", request);
 };
-
-const addAmount = (traveler, objectId, type, amount) => {
-  console.log(privateKey);
+/**
+ *
+ * @param {string} traveler traveler id
+ * @param {string} objectId taret object id
+ * @param {string} type type single/route location
+ * @param {number} amount amount
+ */
+const getSingPayload = (traveler, objectId, type, amount ) => {
   const t = new Date(), f = new Date();
   t.setSeconds(t.getSeconds() + 10);
   const req = {
@@ -78,12 +57,33 @@ const addAmount = (traveler, objectId, type, amount) => {
       amount: amount
     }
   };
-
   const token = jwt.sign(req, privateKey, { algorithm: 'RS256'});
-
-  console.log(token);
+  return token;
+}
+/**
+ *
+ * @param {string} traveler traveler id
+ * @param {string} objectId object id from redemption
+ * @param {srting} type type route or single destination
+ * @param {*} amount amount
+ */
+const addAmount = (traveler, objectId, type, amount) => {
+  const token = getSingPayload(traveler, objectId, type, amount);
+  return instance.post('tppwllt',{token: token});
 };
+/**
+ *
+ * @param {string} traveler traveler user
+ * @param {string} objectId id of product redeemed
+ * @param {*} amount amount
+ */
+const redem  = (traveler, objectId, amount) => {
+  const token = getSingPayload(traveler, objectId, 'REDEM', amount);
+  return instance.post('pay',{token: token});
+}
 
 
 
-addAmount('5555555555','123123123','single', 10);//.then((res) => {console.log(res)});
+//addAmount('5555555555','123123123','single', 10).then((res) => {console.log(res)});
+//getBalance('wallet0001').then(res =>  console.log(res.data));
+//redem('5555555555','123123123', 10).then(res =>  console.log(res.data));
