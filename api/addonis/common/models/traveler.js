@@ -59,7 +59,6 @@ module.exports = function(Traveler) {
           tripModeExp = [
             "5a19354f7c45bc64e48e2d8f",
             "5a19354f7c45bc64e48e2d8b",
-            "5a19354f7c45bc64e48e2d8cs",
             "5a19354f7c45bc64e48e2d92",
             "5a19354f7c45bc64e48e2d93",
             "5a19354f7c45bc64e48e2d90"
@@ -76,7 +75,6 @@ module.exports = function(Traveler) {
         case "family":
           tripModeExp = [
             "5a19354f7c45bc64e48e2d8b",
-            "5a19354f7c45bc64e48e2d8cs",
             "5a19354f7c45bc64e48e2d8e",
             "5a19354f7c45bc64e48e2d91",
             "5a19354f7c45bc64e48e2d92",
