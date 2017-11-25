@@ -1,0 +1,27 @@
+{
+  "name": "experience",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "urlImage": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "locations": {
+      "type": "hasMany",
+      "model": "location",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
