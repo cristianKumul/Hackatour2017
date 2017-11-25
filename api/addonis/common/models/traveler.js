@@ -1,5 +1,5 @@
 "use strict";
-
+const generator = require("generate-password");
 module.exports = function(Traveler) {
   Traveler.validatesInclusionOf("tripMode", {
     in: ["alone", "family", "partner", "friends"],
@@ -10,7 +10,10 @@ module.exports = function(Traveler) {
     in: ["mexicana", "otro"],
     message: "Is not an valid lang of ['mexicana','otro']"
   });
-
+  /**
+   *
+   * @param {*} experiences
+   */
   const findExperienceMatch = experiences => {
     var i,
       len = experiences.length,
@@ -91,5 +94,67 @@ module.exports = function(Traveler) {
       //
     }
     next();
+  });
+
+  /**
+   *   {
+    fbId : '',
+    email: '',
+    name: '',
+    lastName: ''
+  }
+   * @param {object} request
+   * @param {function} cb
+   */
+
+  Traveler.createFbTraveler = (request, cb) => {
+    const password = generator.generate({
+      length: 10,
+      numbers: true
+    });
+    let travelerToCreate = {
+      fbId: request.fbId,
+      nationality: request.nationality,
+      tripMode: request.tripMode,
+      age: request.age,
+      realm: null,
+      username: request.fbId,
+      email: request.email,
+      password: password
+    };
+    console.log("Traveler", Traveler);
+    Traveler.create(travelerToCreate, (err, travelerObject) => {
+      if (!err) {
+        Traveler.login({ username: request.fbId, password: password }, function(
+          err,
+          token
+        ) {
+          cb(null, token.id);
+          console.log(token.id);
+        });
+      } else {
+        cb(null, null);
+      }
+    });
+  };
+  /**
+   * Register remote methods
+   */
+  Traveler.remoteMethod("createFbTraveler", {
+    http: {
+      path: "/createFbTraveler",
+      verb: "post"
+    },
+    accepts: [
+      {
+        arg: "request",
+        type: "object",
+        http: { source: "body" }
+      }
+    ],
+    returns: {
+      arg: "accessToken",
+      type: "string"
+    }
   });
 };

@@ -5,7 +5,11 @@
   "options": {
     "validateUpsert": true
   },
+  "ttl": 900000,
   "properties": {
+    "fbId": {
+      "type": "string"
+    },
     "nationality": {
       "type": "string",
       "required": true

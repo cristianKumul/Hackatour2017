@@ -38,28 +38,19 @@
     "dataSource": "mongolab",
     "public": true
   },
-  "userIndentity": {
-    "dataSource": "mongolab",
-    "public": true
-  },
-  "userCredential": {
-    "dataSource": "mongolab",
-    "public": true
-  },
-  "ApplicationCredential": {
-    "dataSource": "mongolab",
-    "public": true
-  },
-  "UserCredential": {
-    "dataSource": "mongolab",
-    "public": true
-  },
-  "UserIdentity": {
-    "dataSource": "mongolab",
-    "public": true
-  },
   "experienceProfile": {
     "dataSource": "mongolab",
     "public": true
+  },
+  "AccessToken": {
+    "dataSource": "mongolab",
+    "public": false,
+    "relations": {
+      "traveler": {
+        "type": "belongsTo",
+        "model": "traveler",
+        "foreignKey": "travelerId"
+      }
+    }
   }
 }
