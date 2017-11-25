@@ -22,17 +22,17 @@ state = {
 
   componentDidMount(){
     let list_promises = [];
-    const userId = '5a1970ea05a2f501b529061d';
+    const userId = '5a19b09d708ec220e5d763f7';
     addonisClient.getExperienceProfile(userId).then(function(response) {
       const experienceIds = response.data.experiences;
+      console.log(experienceIds);
       experienceIds.forEach(function(id) {
-        console.log(id);
-        list_promises.push(addonisClient.getExperience(id));
-        Promise.all(list_promises).then(function(list_experiencies){
-          console.log(list_experiencies);
-          this.setState({experiences: list_experiencies})
-        });
+          list_promises.push(addonisClient.getExperience(id));
       });
+      Promise.all(list_promises).then(function(list_experiencies){
+        console.log(list_experiencies);
+        this.setState({experiences: list_experiencies})
+      });      
     }).catch(function(err){
         console.log(err);
     });
