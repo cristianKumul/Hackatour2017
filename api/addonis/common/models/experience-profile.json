@@ -1,0 +1,26 @@
+{
+  "name": "experienceProfile",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "experiences": {
+      "type":[
+      "string"
+      ],
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "traveler": {
+      "type": "belongsTo",
+      "model": "traveler",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

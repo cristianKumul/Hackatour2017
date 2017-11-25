@@ -4,7 +4,8 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
-      "./models"
+      "./models",
+      "../node_modules/loopback-component-passport/lib/models"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -12,5 +13,53 @@
       "../common/mixins",
       "./mixins"
     ]
+  },
+  "location": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "route": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "experience": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "routeLocation": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "category": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "traveler": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "userIndentity": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "userCredential": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "ApplicationCredential": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "UserCredential": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "UserIdentity": {
+    "dataSource": "mongolab",
+    "public": true
+  },
+  "experienceProfile": {
+    "dataSource": "mongolab",
+    "public": true
   }
 }

@@ -1,0 +1,49 @@
+{
+  "name": "location",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "coordinates": {
+      "type": "geopoint",
+      "required": true
+    },
+    "fqId": {
+      "type": "string",
+      "required": true
+    },
+    "singlePoints": {
+      "type": "number",
+      "required": true
+    },
+    "routePoints": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "routes": {
+      "type": "hasMany",
+      "model": "route",
+      "foreignKey": "locationId",
+      "through": "routeLocation"
+    },
+    "experience": {
+      "type": "belongsTo",
+      "model": "experience",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

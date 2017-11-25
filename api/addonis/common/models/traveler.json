@@ -1,0 +1,31 @@
+{
+  "name": "traveler",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "nationality": {
+      "type": "string",
+      "required": true
+    },
+    "tripMode": {
+      "type": "string"
+    },
+    "age": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "experienceProfiles": {
+      "type": "hasOne",
+      "model": "experienceProfile",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
