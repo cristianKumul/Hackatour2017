@@ -34,7 +34,7 @@ const proxy = "y8OClQcRV7zynyiZ6kAJCJAhhsRETkfIWtAgjzX05ms=",
   0Tls0CNgoa2EYC+qCeSfptu1ecDF3ki89l6yJjKuzXGSfsL/GYw=
   -----END RSA PRIVATE KEY-----`;
 
-  var absolutePath = path.resolve('./../../../cert/key.pem');
+  var absolutePath = path.resolve('./server/utils/private.key');
   var privateKey = fs.readFileSync(absolutePath, "utf8");
 var instance = axios.create({
   baseURL: "https://hackatour-walabi.azurewebsites.net/api/v1"
