@@ -1,0 +1,12 @@
+{
+  "mongolab": {
+    "host": "ds119306.mlab.com",
+    "port": 19306,
+    "url": "",
+    "database": "addonis",
+    "password": "hackatour2017",
+    "name": "mongolab",
+    "user": "addonisUser",
+    "connector": "mongodb"
+  }
+}
