@@ -35,24 +35,20 @@ export default class LoginView extends Component {
         const { accessToken } = data;
         const credential = FacebookAuthProvider.credential(accessToken);
         firebaseAuth.signInWithCredential(credential).then((credentials) =>{
-          console.log(credentials);
           const email =  credentials.email;
           const uid = credentials.uid;
+          var uid10 = uid.slice(0,10);
           const user = {
-            fbId: uid,
+            fbId: uid10,
             nationality: "mexicana",
             tripMode: "family",
             age: 2,
             email: email,
           };
           addonisClient.createUser(user).then(function(response) {
-            console.log(response);
             if(response.status == 200 && response.data.accessToken != null){
               const accessToken = response.data.accessToken;
               const userId = response.data.userId;
-            }
-            else{
-
             }
 
           }).catch(function(err){

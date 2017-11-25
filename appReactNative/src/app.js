@@ -25,8 +25,7 @@ class AwesomeProject extends React.Component {
   render() {
     const isAndroid = Platform.OS === 'android';
     return (<Router>
-      <Scene key="profile" component={ProfileView} hideNavBar />
-      <Scene key="login" component={LoginView}  hideNavBar />    
+      <Scene key="login" component={LoginView}  hideNavBar />
       <Scene key="root">
         <Scene key="home" component={HomeView}  hideNavBar />
       </Scene>

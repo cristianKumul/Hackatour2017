@@ -1,5 +1,5 @@
 const axios = require('axios');
-const apiUrl = 'http://192.168.1.75:3000/api/';
+const apiUrl = 'http://159.203.165.33:3000/api/';
 
 var createUser = (data)=>{
     return axios.post(apiUrl + 'travelers/createFbTraveler', data);
@@ -10,7 +10,11 @@ var getExperienceProfile = (id)=>{
 }
 
 var getExperience = (id)=>{
-    return axios.get(apiUrl + 'experiences/'+ id);
+    return axios.get(apiUrl + 'experiences/'+ id)
+    .catch(function (error) {
+        console.log(error + id);
+    });
+    
 }
 
 export { 
@@ -18,3 +22,4 @@ export {
     getExperienceProfile,
     getExperience
 }
+
