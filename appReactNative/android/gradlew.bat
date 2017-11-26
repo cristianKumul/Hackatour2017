@@ -34,6 +34,7 @@ goto fail
 :findJavaFromJavaHome
 set JAVA_HOME=%JAVA_HOME:"=%
 set JAVA_EXE=%JAVA_HOME%/bin/java.exe
+REM set JAVA_EXE=/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home
 
 if exist "%JAVA_EXE%" goto init
 

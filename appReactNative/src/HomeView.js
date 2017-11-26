@@ -12,22 +12,38 @@ import {
   Platform
 } from 'react-native';
 import ArtistList from './ArtistList';
-import { getArtists } from './api-client'
+
+const addonisClient = require('./api-client');
+
 export default class HomeView extends Component {
 state = {
-  artists: null
+  experiences: []
 }
 
-componentDidMount(){
-  getArtists()
-  .then(data => this.setState({artists: data}))
-}
+  componentDidMount(){
+    let list_promises = [];
+    const userId = '5a19b09d708ec220e5d763f7';
+    addonisClient.getExperienceProfile(userId).then(function(response) {
+      const experienceIds = response.data.experiences;
+      console.log(experienceIds);
+      experienceIds.forEach(function(id) {
+          list_promises.push(addonisClient.getExperience(id));
+      });
+      Promise.all(list_promises).then(function(list_experiencies){
+        console.log(list_experiencies);
+        this.setState({experiences: list_experiencies})
+      });      
+    }).catch(function(err){
+        console.log(err);
+    });
+  }
   render() {
-    const artists = this.state.artists;
+    const experiences = this.state.experiences;
+    console.log(experiences);
     return (
       <View style={styles.container}>
-        { !artists && <ActivityIndicator size="large" /> }
-        { artists && <ArtistList artists={artists} /> }
+        { !experiences && <ActivityIndicator size="large" /> }
+        { experiences && <ArtistList artists={experiences} /> }
       </View>
     );
   }

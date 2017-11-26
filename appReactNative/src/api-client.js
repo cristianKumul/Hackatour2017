@@ -1,16 +1,25 @@
-const URL = 'https://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=mexico&api_key=a048f956689a998bf2d4c851046a6de3&format=json';
-function getArtists(){
- return fetch(URL)
- .then(response => response.json())
- .then(data=> data.topartists.artist)
-     .then(artists => artists.map(artist=>{
-         return{
-             id: artist.mbid,
-             name: artist.name,
-             image: artist.image[3]['#text'],
-             likes: 200, 
-             comments: 150
-         }
-     }))
+const axios = require('axios');
+const apiUrl = 'http://159.203.165.33:3000/api/';
+
+var createUser = (data)=>{
+    return axios.post(apiUrl + 'travelers/createFbTraveler', data);
 }
-export { getArtists }
+
+var getExperienceProfile = (id)=>{
+    return axios.get(apiUrl + 'travelers/'+ id+ '/experienceProfiles');
+}
+
+var getExperience = (id)=>{
+    return axios.get(apiUrl + 'experiences/'+ id)
+    .catch(function (error) {
+        console.log(error + id);
+    });
+    
+}
+
+export { 
+    createUser,
+    getExperienceProfile,
+    getExperience
+}
+
